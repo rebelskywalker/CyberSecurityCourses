@@ -2,12 +2,12 @@
 ```
   Chacker@talking-web~level1:~$ curl 127.0.0.1 80
 ```
-# Level2:
+# Level2: netcat get request
 ```
   $ nc 127.0.0.1 80
   $ GET / HTTP/1.0
 ```
-# Level3:
+# Level3: python to write get request
 ```
   ipython
   import requests
@@ -30,7 +30,7 @@ pwn.college{UvLTe_HChefnQO8UL7d-QfRpNBF.dFzNyMDL4gTN2UzW}
 
 
 
-# LEvel 6
+# LEvel 6 python change host name
 ```
 import requests
 headers = {'host': "9c4a144aecd0b411009a1cb633881bc0"}
@@ -80,7 +80,7 @@ hacker@talking-web~level10:~$ curl 127.0.0.1:80/a5425217%20b32904af/ac212716%202
 3b1e
 pwn.college{cIzsKNbRuK1SzLASkHBxw1MwOgq.ddzNyMDL4gTN2UzW}
 ```
-# Level 11 
+# Level 11 use netcat for encoding
 
 NOTE: Printf did not work !!! had to use echo. All my earlier netcat answers in this section worked with printf to my knowledge.
 
@@ -105,6 +105,33 @@ Host: 127.0.0.1
 Connection: close
 ```
 
-# Level 12
+# Level 12 use python for encoding
+```
+import requests
+headers = "/d44d0ae4%20c5fbef7c/000df879%2096603bfe"
+url = 'http://127.0.0.1'
+port = 80
+url = f'{url}:{port}{headers}'
+r = requests.get(url)
+print(r.text)
+```
 
+# Level 13 
+```
+$ curl "http://127.0.0.1:80?a=af29d0f51496dc03035a068
+40616168f"
+```
+# Level 14
+```
+nc 127.0.0.1 80
+GET /?a=c1bb0692f91f3fe8ca9f2f6a82ffbd03 HTTP/1.1    
+Host: 127.0.0.1
+Connection: close
 
+HTTP/1.1 200 OK
+Server: Werkzeug/3.0.3 Python/3.8.10
+Date: Sun, 26 May 2024 23:25:30 GMT
+Content-Length: 58
+Server: pwn.college
+Connection: close
+```
