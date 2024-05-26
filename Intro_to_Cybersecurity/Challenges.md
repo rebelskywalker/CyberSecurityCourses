@@ -1,4 +1,4 @@
-# Level1:
+# Level1: Curl access uri and port
 ```
   Chacker@talking-web~level1:~$ curl 127.0.0.1 80
 ```
@@ -20,7 +20,7 @@
   Out[6]: 'pwn.college{0dn91ZUT__I884bC_C_2AlcuzAI.dBzNyMDL4gTN2UzW}\n'
 ```
 
-# Level4:
+# Level4: Curl change host
 ```
 $ curl -H 'host: 91b17394657936a95b696abb1f0c25cc' http://127.0.0.1
 pwn.college{UvLTe_HChefnQO8UL7d-QfRpNBF.dFzNyMDL4gTN2UzW}
@@ -41,5 +41,38 @@ r = requests.get(url, headers=headers)
 print(r.text)
 ```
 
+# Level 7 Curl to change path
+```
+hacker@talking-web~level7:~$ curl http://127.0.0.1//90452535bde5123cc609a5877b83452e
+pwn.college{QDiJHaudRazcwESw7Sdl00L6-OF.dRzNyMDL4gTN2UzW}
+hacker@talking-web~level7:~$ curl http://127.0.0.1:80/90452535bde5123cc609a5877b83452e
+pwn.college{QDiJHaudRazcwESw7Sdl00L6-OF.dRzNyMDL4gTN2UzW}
+```
+# Level 8 
+```
+hacker@talking-web~level8:~$ printf "GET /3d7eabe77ccc11c1446e1557966c8a0d HTTP/1.1\r\nHost: 127.0.0.1\r\nConn
+ection: close\r\n\r\n" | nc 127.0.0.1 80
+HTTP/1.1 200 OK
+Server: Werkzeug/3.0.3 Python/3.8.10
+Date: Sun, 26 May 2024 09:11:36 GMT
+Content-Length: 58
+Server: pwn.college
+Connection: close
 
-# Level 7
+pwn.college{gP-2m0vwZaWX1PFhs-byljnZEgx.dVzNyMDL4gTN2UzW}
+```
+
+
+# Level 9
+```
+import requests
+headers = "/8735bd87507622dd2ba8fac3b6c0b59e"
+url = 'http://127.0.0.1'
+port = 80
+url = f'{url}:{port}{headers}'
+r = requests.get(url)
+print(r.text)
+```
+
+# Level 10
+
