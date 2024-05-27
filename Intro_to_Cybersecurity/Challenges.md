@@ -135,3 +135,70 @@ Content-Length: 58
 Server: pwn.college
 Connection: close
 ```
+
+# Level 15
+```
+import requests
+headers = "?a=620f7565a543aefb2f88b887217128e8"
+url = 'http://127.0.0.1'
+port = 80
+url = f'{url}:{port}{headers}'
+r = requests.get(url)
+print(r.text)
+```
+
+# Level 16
+```
+hacker@talking-web~level16:~$ curl "http://127.0.0.1:80/?a=e1caa37e2f832758909d626dbc76c3da&b=4aec09fb%208f453401%261856f4f7%232bb2096e"
+```
+
+# Level 17
+```
+hacker@talking-web~level17:~$ nc 127.0.0.1 80
+GET /?a=7365aaf97e648151e36a95d1f213ce63&b=66675b29%20ff006681%26251f1073%2378b722
+Host: 127.0.0.1
+Connection: close
+```
+# Level 18
+```
+hacker@talking-web~level18:~$ /bin/python /home/hacker/Intro_to_Cybersecurity/level18.py
+```
+
+# Level 19
+```
+hacker@talking-web~level19:~$ curl -d "a=516dc1a4a50cbfa7e53d29c83bcac259" 127.0.0.1:80
+```
+
+# Level 20
+```
+hacker@talking-web~level20:~$ nc 127.0.0.1 80
+POST / HTTP/1.1
+Host: 127.0.0.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 34
+
+a=875f6ea63ab35fc759fdec7302bbc8e6
+HTTP/1.1 200 OK
+Server: Werkzeug/3.0.3 Python/3.8.10
+Date: Mon, 27 May 2024 00:36:54 GMT
+Content-Length: 58
+Server: pwn.college
+Connection: close
+
+pwn.college{M01_UZRD9fgwYRf-6B1YG8sZDms.ddDOyMDL4gTN2UzW}
+```
+# Level 21
+```
+import requests
+
+p1 = "a3efe64ef440a3ef5c4304882f4e7b6a"
+params = {'a': p1}
+headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+url = 'http://127.0.0.1'
+port = 80
+# Correctly construct the URL with port number
+url_with_port = f'{url}:{port}/'
+r = requests.post(url_with_port, data=params, headers=headers)
+print(r.text)
+
+```
