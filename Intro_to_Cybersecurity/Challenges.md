@@ -207,3 +207,46 @@ print(r.text)
 ```
 hacker@talking-web~level22:~$ curl -d "a=71e050f6fb089ed72b0d276cad7f262d&b=e94cbd83%2014d639f8%261dae2ba5%232a6a9282" 127.0.0.1:80
 ```
+
+# Level 23
+```
+hacker@talking-web~level23:~$ nc 127.0.0.1 80
+POST / HTTP/1.1
+Host: 127.0.0.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 78
+
+a=ed6005c0dce51d18108a9a5732ac9d01&b=be5ede9c%2025cad8e2%264e5b09e1%2316d43944
+HTTP/1.1 200 OK
+Server: Werkzeug/3.0.3 Python/3.8.10
+Date: Mon, 27 May 2024 06:44:35 GMT
+Content-Length: 58
+Server: pwn.college
+Connection: close
+```
+# Level 24
+```
+import requests
+
+p1 = "5b5b38b526292021b532279d28792167" 
+p2 = "e68eb9f3 87bf26b9&26412b61#9eaaefb1"
+params = {'a': p1, 'b': p2}
+headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+url = 'http://127.0.0.1'
+port = 80
+# Correctly construct the URL with port number
+url_with_port = f'{url}:{port}/'
+r = requests.post(url_with_port, data=params, headers=headers)
+print(r.text)
+```
+
+# Level 25
+Notes:
+-X specifies request command to use, -H is to pass a header, -d is to include format data.
+```
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"a": "152e4b0869a2d21378769e9dce935251"}' \
+  http://127.0.0.1:80
+
+```
