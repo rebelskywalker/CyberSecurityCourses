@@ -116,12 +116,12 @@ r = requests.get(url)
 print(r.text)
 ```
 
-# Level 13 
+# Level 13 curl to send arg
 ```
 $ curl "http://127.0.0.1:80?a=af29d0f51496dc03035a068
 40616168f"
 ```
-# Level 14
+# Level 14 nc to send arg
 ```
 nc 127.0.0.1 80
 GET /?a=c1bb0692f91f3fe8ca9f2f6a82ffbd03 HTTP/1.1    
@@ -136,7 +136,7 @@ Server: pwn.college
 Connection: close
 ```
 
-# Level 15
+# Level 15 python to send arg
 ```
 import requests
 headers = "?a=620f7565a543aefb2f88b887217128e8"
@@ -147,29 +147,29 @@ r = requests.get(url)
 print(r.text)
 ```
 
-# Level 16
+# Level 16 curl to send mult args
 ```
 hacker@talking-web~level16:~$ curl "http://127.0.0.1:80/?a=e1caa37e2f832758909d626dbc76c3da&b=4aec09fb%208f453401%261856f4f7%232bb2096e"
 ```
 
-# Level 17
+# Level 17 nc to send mult args
 ```
 hacker@talking-web~level17:~$ nc 127.0.0.1 80
 GET /?a=7365aaf97e648151e36a95d1f213ce63&b=66675b29%20ff006681%26251f1073%2378b722
 Host: 127.0.0.1
 Connection: close
 ```
-# Level 18
+# Level 18 pythong to send mult args
 ```
 hacker@talking-web~level18:~$ /bin/python /home/hacker/Intro_to_Cybersecurity/level18.py
 ```
 
-# Level 19
+# Level 19 curl to url encode
 ```
 hacker@talking-web~level19:~$ curl -d "a=516dc1a4a50cbfa7e53d29c83bcac259" 127.0.0.1:80
 ```
 
-# Level 20
+# Level 20 url encode with nc
 ```
 hacker@talking-web~level20:~$ nc 127.0.0.1 80
 POST / HTTP/1.1
@@ -187,7 +187,7 @@ Connection: close
 
 pwn.college{M01_UZRD9fgwYRf-6B1YG8sZDms.ddDOyMDL4gTN2UzW}
 ```
-# Level 21
+# Level 21 url encode with python
 ```
 import requests
 
@@ -203,12 +203,12 @@ print(r.text)
 
 ```
 
-# Level 22
+# Level 22 url inline encoding
 ```
 hacker@talking-web~level22:~$ curl -d "a=71e050f6fb089ed72b0d276cad7f262d&b=e94cbd83%2014d639f8%261dae2ba5%232a6a9282" 127.0.0.1:80
 ```
 
-# Level 23
+# Level 23 url incline encoding
 ```
 hacker@talking-web~level23:~$ nc 127.0.0.1 80
 POST / HTTP/1.1
@@ -224,7 +224,7 @@ Content-Length: 58
 Server: pwn.college
 Connection: close
 ```
-# Level 24
+# Level 24 multiple form data via python
 ```
 import requests
 
@@ -240,7 +240,7 @@ r = requests.post(url_with_port, data=params, headers=headers)
 print(r.text)
 ```
 
-# Level 25
+# Level 25 curl to submit json
 Notes:
 -X specifies request command to use, -H is to pass a header, -d is to include format data.
 ```
@@ -250,3 +250,103 @@ curl -X POST \
   http://127.0.0.1:80
 
 ```
+
+# Level 26 submit JSON using netcat
+Using nc
+Notice that for content length we must include every character in the form data payload and then also be aware of two more characters (\r \n) for the CRLF.
+```
+$ nc 127.0.0.1 80
+POST / HTTP/1.1
+Host: 127.0.0.1
+Content-Type: application/json
+Content-Length: 43
+
+{"a": "d686f7422cbd7b7d42c07ab963e01ae4"}
+```
+Using echo
+```
+$ echo -e "POST / HTTP/1.1\r\nHost: 127.0.0.1\r\nContent-Type: application/json\r\nContent-Length: 41\r\n\r\n{\"a\": \"d686f7422cbd7b7d42c07ab963e01ae4\"}" | nc 127.0.0.1 80
+```
+
+# Level 27 python to submist JSON
+```
+import requests
+url = 'http://127.0.0.1:80/' # http with port
+load = {'a': '3d762725539d617135f8f737253760b3'}
+
+headers = {'Content-Type': 'application/json'}
+response = requests.post(url, json=load, headers=headers)
+print(response.text)
+```
+
+# Level 28 
+```
+$ curl -X POST http://127.0.0.1:80 -H 'Content-Type: ap
+plication/json' -d '{ "a": "2b7dab418c9a4e0704aef520aee3ab1e", "b": { "c": "8005f9f
+4", "d": ["35a4aff6", "fec5db7b ab862559&d80867fd#92254593"] } }'
+```
+
+# Level 29
+Note: lengths 117 and 116 worked. We used a python len counter to count the characters this time enclosing the whole string of key:values in quotes. this returned 17 and we had to escape each inner occurrence of quotes.
+```
+echo "{\"a\":\"31fab7fd132757857d2bb57c5f2c0f02\",\"b\":{\"c\":\"d9c1367a\",\"d\":[\"b82e1a20\",\"959485c8 3855f0df&4f43d5db#68e48409\"]}}" | wc -c
+```
+
+** ANSWER **
+
+```
+$ echo -e "POST / HTTP/1.1\r\nHost: 127.0.0.1\r\nContent-Type: application/json\r\nContent-Length: 116\r\n\r\n{\"a\":\"31fab7fd132757857d2
+bb57c5f2c0f02\",\"b\":{\"c\":\"d9c1367a\",\"d\":[\"b82e1a20\",\"959485c8 3855f0df&4
+f43d5db#68e48409\"]}}" | nc 127.0.0.1 80
+```
+
+# Level 30
+```
+import requests
+
+url = 'http://127.0.0.1:80'
+payload = {
+    "a": "9924bb65adfa87136feb597f50017007",
+    "b": {
+        "c": "c9e6d7b1",
+        "d": ["d285297f", "39ba17dc 5dfb7d53&34cba762#b9d6afa1"]
+    }
+}
+headers = {'Content-Type': 'application/json'}
+
+response = requests.post(url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+# Level 31
+Needs -L option for following links
+```
+$ curl -X GET 127.0.0.1:80 
+<!doctype html>
+<html lang=en>
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+<p>You should be redirected automatically to the target URL: <a href="/7e5e8a6be5baa1eb0408a40815fe0f19">/7e5e8a6be5baa1eb0408a40815fe0f19</a>. If not, click the link.
+```
+```
+$ curl -L -X GET 127.0.0.1:80 
+pwn.college{8bK8eWN6ujsb_V2_mAM5_Ag6xyy.dhTOyMDL4gTN2UzW}
+```
+
+# Level 32
+
+# Level 33
+
+# Level 34
+
+# Level 35
+
+# Level 36
+
+# Level 37
+
+# Level 38
+
+# Level 39
+
