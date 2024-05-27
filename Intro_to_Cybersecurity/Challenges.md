@@ -202,3 +202,8 @@ r = requests.post(url_with_port, data=params, headers=headers)
 print(r.text)
 
 ```
+
+# Level 22
+```
+hacker@talking-web~level22:~$ curl -d "a=71e050f6fb089ed72b0d276cad7f262d&b=e94cbd83%2014d639f8%261dae2ba5%232a6a9282" 127.0.0.1:80
+```
