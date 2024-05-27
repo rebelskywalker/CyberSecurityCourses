@@ -300,7 +300,7 @@ bb57c5f2c0f02\",\"b\":{\"c\":\"d9c1367a\",\"d\":[\"b82e1a20\",\"959485c8 3855f0d
 f43d5db#68e48409\"]}}" | nc 127.0.0.1 80
 ```
 
-# Level 30
+# Level 30 python to upload multiple JSON form data including an arugment with multiple inputs
 ```
 import requests
 
@@ -319,7 +319,7 @@ response = requests.post(url, json=payload, headers=headers)
 print(response.text)
 ```
 
-# Level 31
+# Level 31 follow link using curl
 Needs -L option for following links
 ```
 $ curl -X GET 127.0.0.1:80 
@@ -334,13 +334,69 @@ $ curl -L -X GET 127.0.0.1:80
 pwn.college{8bK8eWN6ujsb_V2_mAM5_Ag6xyy.dhTOyMDL4gTN2UzW}
 ```
 
-# Level 32
+# Level 32 redirecti follow link with nc
+I had to run a Get request first without the correct path to retreive the redirect path. I then used that path in a second request to retreive my answer.
+```
+GET /1ef9c60c9eb905d83125404977754a3c HTTP/1.1
+Host: 127.0.0.1
+Connection: Close
+```
 
-# Level 33
+# Level 33 python to redirect link
+```
+import requests
+url = 'http://127.0.0.1:80'  # Replace 'example.com' with the actual URL
 
-# Level 34
+response = requests.get(url, allow_redirects=True)
+# Check if the final response is a redirect or not
+if response.history:
+    print("Redirected URL:", response.url)
+    print("Final Response:", response.text)
+else:
+    print("No redirects. Response:", response.text)
+```
+hacker@talking-web~level33:~$ /bin/python /home/hacker/Intro_to_Cybersecurity/level33.py
+Redirected URL: http://127.0.0.1:80/df6a8bbdebc38f63a039eff1f2bfea39
+Final Response: pwn.college{Qu-uHvDYx1fltcPpESWn89-_hjf.dBDMzMDL4gTN2UzW}
 
-# Level 35
+# Level 34 Cookie using curl
+FInd Cookie using -v for verbose
+```
+hacker@talking-web~level34:~$ curl -v -X GET 127.0.0.1:80
+Note: Unnecessary use of -X or --request, GET is already inferred.
+*   Trying 127.0.0.1:80...
+* TCP_NODELAY set
+* Connected to 127.0.0.1 (127.0.0.1) port 80 (#0)
+> GET / HTTP/1.1
+> Host: 127.0.0.1
+> User-Agent: curl/7.68.0
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 302 FOUND
+< Server: Werkzeug/3.0.3 Python/3.8.10
+< Date: Mon, 27 May 2024 22:00:52 GMT
+< Content-Length: 189
+< Location: /
+< Set-Cookie: cookie=7438c0687129cc030b7aca87c7abbfa1; Path=/
+< Server: pwn.college
+< Connection: close
+< 
+<!doctype html>
+<html lang=en>
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+<p>You should be redirected automatically to the target URL: <a href="/">/</a>. If not, click the link.
+* Closing connection 0
+```
+```
+hacker@talking-web~level34:~$ curl -b "cookie=7438c0687129cc030b7aca87c7abbfa1" 127
+.0.0.1:80
+pwn.college{0ZsXqt-NXB87pcWyD-XTYFUUD6V.dFDMzMDL4gTN2UzW}
+```
+
+# Level 35 Cookie using netcat
+
 
 # Level 36
 
