@@ -396,13 +396,241 @@ pwn.college{0ZsXqt-NXB87pcWyD-XTYFUUD6V.dFDMzMDL4gTN2UzW}
 ```
 
 # Level 35 Cookie using netcat
+```
+hacker@talking-web~level35:~$ nc 127.0.0.1 80
+GET / HTTP/1.1
+Host: 127.0.0.1
+Connection: close
 
+HTTP/1.1 302 FOUND
+Server: Werkzeug/3.0.3 Python/3.8.10
+Date: Mon, 27 May 2024 22:17:16 GMT
+Content-Length: 189
+Location: /
+Set-Cookie: cookie=f758d93f8e9fdfdc3703628f9391e087; Path=/
+Server: pwn.college
+Connection: close
 
+<!doctype html>
+<html lang=en>
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+<p>You should be redirected automatically to the target URL: <a href="/">/</a>. If not, click the link.
+```
+To set a cookie you need to have a header for Cookie (keyword) with a cookie name and value 
+
+Cookie: cookie_name=cookie_val
+
+```
+hacker@talking-web~level35:~$ nc 127.0.0.1 80
+GET / HTTP/1.1
+Host: 127.0.0.1
+Cookie: cookie=f758d93f8e9fdfdc3703628f9391e087
+Connection: close
+
+HTTP/1.1 200 OK
+Server: Werkzeug/3.0.3 Python/3.8.10
+Date: Mon, 27 May 2024 22:34:25 GMT
+Content-Length: 58
+Server: pwn.college
+Connection: close
+```
 # Level 36
+```
+import requests
+url = 'http://127.0.0.1:80'  # Replace 'example.com' with the actual URL
+response = requests.get(url)
+for header, value in response.headers.items():
+    print(f"{header}: {value}")
+
+cookies = response.cookies
+
+if cookies:
+    for cookie in cookies:
+        print(f"{cookie.name}: {cookie.value}")
+
+print(response.text)
+```
 
 # Level 37
+```
+hacker@talking-web~level37:~$ curl -b -v "session=eyJzdGF0ZSI6MX0.ZlUSaQ.iL2aLuLT9
+J7P5E8N4_prf30pJ2o; HttpOnly; Path=/" 127.0.0.1:80
+curl: (3) URL using bad/illegal format or missing URL
+state: 1
+hacker@talking-web~level37:~$ curl -v -b "session=eyJzdGF0ZSI6MX0.ZlUSaQ.iL2aLuLT9
+J7P5E8N4_prf30pJ2o; HttpOnly; Path=/" 127.0.0.1:80
+*   Trying 127.0.0.1:80...
+* TCP_NODELAY set
+* Connected to 127.0.0.1 (127.0.0.1) port 80 (#0)
+> GET / HTTP/1.1
+> Host: 127.0.0.1
+> User-Agent: curl/7.68.0
+> Accept: */*
+> Cookie: session=eyJzdGF0ZSI6MX0.ZlUSaQ.iL2aLuLT9J7P5E8N4_prf30pJ2o; HttpOnly; Path=/
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 302 FOUND
+< Server: Werkzeug/3.0.3 Python/3.8.10
+< Date: Mon, 27 May 2024 23:38:42 GMT
+< Content-Length: 9
+< Location: /
+< Server: pwn.college
+< Vary: Cookie
+< Set-Cookie: session=eyJzdGF0ZSI6Mn0.ZlUZgg.knaAD8VpdxpxKT1JthdAoTpL12A; HttpOnly; Path=/
+< Connection: close
+< 
+state: 2
+* Closing connection 0
+hacker@talking-web~level37:~$ curl -X GET <http://127.0.0.1:80/request1> --cookie-jar cookies.txt --cookie cookies.txt
+bash: http://127.0.0.1:80/request1: No such file or directory
+hacker@talking-web~level37:~$ 
+hacker@talking-web~level37:~$ curl -v -b "session=eyJzdGF0ZSI6Mn0.ZlUZgg.knaAD8VpdxpxKT1JthdAoTpL12A; HttpOnly; Path=/" 127.0.0.1:80
+*   Trying 127.0.0.1:80...
+* TCP_NODELAY set
+* Connected to 127.0.0.1 (127.0.0.1) port 80 (#0)
+> GET / HTTP/1.1
+> Host: 127.0.0.1
+> User-Agent: curl/7.68.0
+> Accept: */*
+> Cookie: session=eyJzdGF0ZSI6Mn0.ZlUZgg.knaAD8VpdxpxKT1JthdAoTpL12A; HttpOnly; Path=/
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 302 FOUND
+< Server: Werkzeug/3.0.3 Python/3.8.10
+< Date: Mon, 27 May 2024 23:52:13 GMT
+< Content-Length: 9
+< Location: /
+< Server: pwn.college
+< Vary: Cookie
+< Set-Cookie: session=eyJzdGF0ZSI6M30.ZlUcrQ.fJUzpU9G9ZJKxx2BuQeeGfzzlSo; HttpOnly; Path=/
+< Connection: close
+< 
+state: 3
+* Closing connection 0
+hacker@talking-web~level37:~$ curl -v -b "session=eyJzdGF0ZSI6M30.ZlUcrQ.fJUzpU9G9ZJKxx2BuQeeGfzzlSo; HttpOnly; Path=/" 127.0.0.1:80
+*   Trying 127.0.0.1:80...
+* TCP_NODELAY set
+* Connected to 127.0.0.1 (127.0.0.1) port 80 (#0)
+> GET / HTTP/1.1
+> Host: 127.0.0.1
+> User-Agent: curl/7.68.0
+> Accept: */*
+> Cookie: session=eyJzdGF0ZSI6M30.ZlUcrQ.fJUzpU9G9ZJKxx2BuQeeGfzzlSo; HttpOnly; Path=/
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Server: Werkzeug/3.0.3 Python/3.8.10
+< Date: Mon, 27 May 2024 23:52:28 GMT
+< Content-Length: 58
+< Server: pwn.college
+< Vary: Cookie
+< Set-Cookie: session=eyJzdGF0ZSI6NH0.ZlUcvA.hP3gSYal0gMSc08CJb9THJ8iIPM; HttpOnly; Path=/
+< Connection: close
+<
+```
 
 # Level 38
+eyJzdGF0ZSI6MX0.ZlUdyw.uhwg9JroBZ72lCCKJFzxGyIT5J0
+```
+hacker@talking-web~level38:~$ nc 127.0.0.1 80
+GET / HTTP/1.1
+Host: 127.0.0.1
+Connection: close
+
+HTTP/1.1 302 FOUND
+Server: Werkzeug/3.0.3 Python/3.8.10
+Date: Mon, 27 May 2024 23:56:59 GMT
+Content-Length: 9
+Location: /
+Server: pwn.college
+Vary: Cookie
+Set-Cookie: session=eyJzdGF0ZSI6MX0.ZlUdyw.uhwg9JroBZ72lCCKJFzxGyIT5J0; HttpOnly; Path=/
+Connection: close
+
+state: 1
+```
+
+```
+hacker@talking-web~level38:~$ nc 127.0.0.1 80
+GET / HTTP/1.1
+Host: 127.0.0.1
+Cookie: session=eyJzdGF0ZSI6MX0.ZlUdyw.uhwg9JroBZ72lCCKJFzxGyIT5J0
+Connection: close
+
+HTTP/1.1 302 FOUND
+Server: Werkzeug/3.0.3 Python/3.8.10
+Date: Mon, 27 May 2024 23:58:43 GMT
+Content-Length: 9
+Location: /
+Server: pwn.college
+Vary: Cookie
+Set-Cookie: session=eyJzdGF0ZSI6Mn0.ZlUeMw.Oh8t8XJ6NpDLrcuAVkAtdkysd2w; HttpOnly; Path=/
+Connection: close
+
+state: 2
+```
+
+```
+hacker@talking-web~level38:~$ nc 127.0.0.1 80
+GET / HTTP/1.1
+Host: 127.0.0.1
+Cookie: session=eyJzdGF0ZSI6Mn0.ZlUeMw.Oh8t8XJ6NpDLrcuAVkAtdkysd2w
+Connection: close
+
+HTTP/1.1 302 FOUND
+Server: Werkzeug/3.0.3 Python/3.8.10
+Date: Mon, 27 May 2024 23:59:35 GMT
+Content-Length: 9
+Location: /
+Server: pwn.college
+Vary: Cookie
+Set-Cookie: session=eyJzdGF0ZSI6M30.ZlUeZw.z0jN9u4Ui8xo-Z65f3D3j0B-dTo; HttpOnly; Path=/
+Connection: close
+
+state: 3
+```
+
+```
+hacker@talking-web~level38:~$ nc 127.0.0.1 80
+GET / HTTP/1.1
+Host: 127.0.0.1
+Cookie: session=eyJzdGF0ZSI6M30.ZlUeZw.z0jN9u4Ui8xo-Z65f3D3j0B-dTo
+Connection: close
+
+HTTP/1.1 200 OK
+Server: Werkzeug/3.0.3 Python/3.8.10
+Date: Tue, 28 May 2024 00:00:26 GMT
+Content-Length: 58
+Server: pwn.college
+Vary: Cookie
+Set-Cookie: session=eyJzdGF0ZSI6NH0.ZlUemg.AksZhxxxg4skRHTkqVWZAPlH0ZY; HttpOnly; Path=/
+Connection: close
+
+pwn.college{khM1VoQEmmbNWyFBXHt8ukz321B.dVDMzMDL4gTN2UzW}
+```
 
 # Level 39
+```
+import requests
+url = 'http://127.0.0.1:80'  # Replace 'example.com' with the actual URL
+response = requests.get(url)
+for header, value in response.headers.items():
+    print(f"{header}: {value}")
+cookies = response.cookies
+if cookies:
+    for cookie in cookies:
+        print(f"{cookie.name}: {cookie.value}")
+
+print(response.text)
+```
+hacker@talking-web~level39:~$ /bin/python /home/hacker/Intro_to_Cybersecurity/level39.py
+Server: Werkzeug/3.0.3 Python/3.8.10, pwn.college
+Date: Tue, 28 May 2024 00:06:06 GMT
+Content-Length: 58
+Vary: Cookie
+Set-Cookie: session=eyJzdGF0ZSI6NH0.ZlUf7g.85KwAlOJgSmOb40mAii3eFyiieg; HttpOnly; Path=/
+Connection: close
+session: eyJzdGF0ZSI6NH0.ZlUf7g.85KwAlOJgSmOb40mAii3eFyiieg
+pwn.college{cq3OHM5GEz0Ng20kxQKjQ-47wX1.dZDMzMDL4gTN2UzW}
 
